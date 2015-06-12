@@ -1,0 +1,29 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "23.0.0 rc2"
+
+    defaultConfig {
+        applicationId "it.polimi.spf.demo.couponing.client"
+        minSdkVersion 17
+        targetSdkVersion 22
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    provided 'org.projectlombok:lombok:1.16.4'
+
+    compile 'it.polimi.spf:spflib:1.+@aar'
+    compile 'it.polimi.spf:spfshared:1.+@aar'
+
+    compile 'com.android.support:support-v13:22.2.0'
+}
+
