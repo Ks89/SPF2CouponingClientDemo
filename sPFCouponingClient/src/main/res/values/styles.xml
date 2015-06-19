@@ -1,26 +1,40 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+
+    <!-- the theme applied to the application or activity -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
+        <!--<item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>-->
+        <item name="android:popupBackground">#622389</item>
+        <item name="actionBarPopupTheme">@color/primary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorAccent">@color/accent</item>
+
+        <item name= "android:textColor">@color/accent</item>
+
+        <!--<item name="textColorPrimary"></item>-->
+        <!--<item name="windowBackground"></item>-->
+        <!--<item name="android:statusBarColor">@color/material_deep_teal_200</item>-->
+        <!--<item name="android:navigationBarColor">@color/material_deep_teal_200</item>-->
+
+
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="windowActionModeOverlay">true</item>-->
+        <!--<item name="windowActionBar">false</item>-->
     </style>
+
+
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <item name="android:actionBarStyle">@style/ActionBarPlain</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
+    <!--<style name="AppTheme" parent="AppBaseTheme">-->
+        <!--<item name="android:actionBarStyle">@style/ActionBarPlain</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+    <!--</style>-->
 
-    <style name="ActionBarPlain" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/accent</item>
-    </style>
+    <!--<style name="ActionBarPlain" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
+        <!--<item name="android:background">@color/accent</item>-->
+    <!--</style>-->
 
     <style name="detail_container">
         <item name="android:layout_width">match_parent</item>

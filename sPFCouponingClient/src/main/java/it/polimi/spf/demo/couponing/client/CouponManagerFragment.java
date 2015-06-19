@@ -7,14 +7,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import android.app.Fragment;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.AsyncTaskLoader;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.internal.widget.ListViewCompat;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,7 +40,7 @@ public class CouponManagerFragment extends Fragment {
 		return new CouponManagerFragment();
 	}
 
-	private LoaderCallbacks<List<Coupon>> mLoaderCallbacks = new LoaderCallbacks<List<Coupon>>() {
+	private LoaderManager.LoaderCallbacks<List<Coupon>> mLoaderCallbacks = new LoaderManager.LoaderCallbacks<List<Coupon>>() {
 
 		@Override
 		public void onLoaderReset(Loader<List<Coupon>> arg0) {
@@ -159,7 +161,7 @@ public class CouponManagerFragment extends Fragment {
 		mCouponList.setOnItemClickListener(mCouponClickListener );
 
 		mCouponList.setMultiChoiceModeListener(mChoiceListener);
-		mCouponList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		mCouponList.setChoiceMode(ListViewCompat.CHOICE_MODE_MULTIPLE_MODAL);
 		
 		return root;
 	}
@@ -212,12 +214,10 @@ public class CouponManagerFragment extends Fragment {
 				return (ViewHolder) o;
 			}
 
-			//@formatter:off
 			ViewHolder holder = new ViewHolder(
 					(ImageView) view.findViewById(R.id.coupon_entry_photo),
 					(TextView) view.findViewById(R.id.coupon_entry_title),
 					(TextView) view.findViewById(R.id.coupon_entry_category));
-			//@formatter:on
 
 			view.setTag(holder);
 			return holder;

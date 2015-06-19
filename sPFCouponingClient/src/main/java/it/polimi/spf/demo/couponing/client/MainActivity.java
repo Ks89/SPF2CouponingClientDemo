@@ -2,31 +2,54 @@ package it.polimi.spf.demo.couponing.client;
 
 import it.polimi.spf.lib.services.SPFServiceRegistry;
 import it.polimi.spf.shared.model.SPFError;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import lombok.Getter;
+import lombok.Setter;
+
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
 	protected static final String TAG = "MainActivity";
+	private TabFragment tabFragment;
+	@Getter
+	@Setter
+	private Toolbar toolbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		ViewPager pager = (ViewPager) findViewById(R.id.main_pager);
-		pager.setAdapter(new PagerConfigurator(this, getFragmentManager()));
+		setContentView(R.layout.activity_main_2);
+
+		this.setupToolBar();
+
+		tabFragment = TabFragment.newInstance();
+
+		this.getSupportFragmentManager().beginTransaction()
+				.replace(R.id.container_root, tabFragment, "tabfragment")
+				.commit();
+
+		this.getSupportFragmentManager().executePendingTransactions();
+
+		//register service
 		registerService();
-		
-		PagerTabStrip tabs = (PagerTabStrip) findViewById(R.id.main_tabs);
-		tabs.setTabIndicatorColorResource(R.color.selection);
+
+//		ViewPager pager = (ViewPager) findViewById(R.id.main_pager);
+//		pager.setAdapter(new PagerConfigurator(this, getSupportFragmentManager()));
+//
+//
+//		PagerTabStrip tabs = (PagerTabStrip) findViewById(R.id.main_tabs);
+//		tabs.setTabIndicatorColorResource(R.color.selection);
 	}
 
 	private void registerService(){
@@ -62,13 +85,13 @@ public class MainActivity extends Activity {
 		@Override
 		public Fragment getItem(int i) {
 			switch (i) {
-			case 0:
-				return CouponManagerFragment.newInstance();
-			case 1:
-				return CategoryFragment.newInstance();
+				case 0:
+					return CouponManagerFragment.newInstance();
+				case 1:
+					return CategoryFragment.newInstance();
 
-			default:
-				throw new IndexOutOfBoundsException("Requested page " + i + ", total " + PAGE_COUNT);
+				default:
+					throw new IndexOutOfBoundsException("Requested page " + i + ", total " + PAGE_COUNT);
 			}
 		}
 
@@ -80,6 +103,20 @@ public class MainActivity extends Activity {
 		@Override
 		public int getCount() {
 			return PAGE_COUNT;
+		}
+	}
+
+	/**
+	 * Method to setup the {@link android.support.v7.widget.Toolbar}
+	 * as supportActionBar in this {@link android.support.v7.app.ActionBarActivity}.
+	 */
+	private void setupToolBar() {
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		if (toolbar != null) {
+			toolbar.setTitle(getResources().getString(R.string.app_name));
+			toolbar.setTitleTextColor(Color.WHITE);
+			toolbar.inflateMenu(R.menu.menu_category);
+			this.setSupportActionBar(toolbar);
 		}
 	}
 	

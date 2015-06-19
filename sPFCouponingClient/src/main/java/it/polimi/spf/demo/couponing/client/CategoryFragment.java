@@ -16,12 +16,13 @@ import it.polimi.spf.shared.model.SPFError;
 import it.polimi.spf.shared.model.SPFQuery;
 import it.polimi.spf.shared.model.SPFTrigger;
 import it.polimi.spf.shared.model.SPFTrigger.IllegalTriggerException;
-import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.internal.widget.ListViewCompat;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -116,7 +117,7 @@ public class CategoryFragment extends Fragment {
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_category_action_mode, menu);
             mActionMode = mode;
-            mSelectedPositions = new HashSet<Integer>();
+            mSelectedPositions = new HashSet<>();
             return true;
         }
 
@@ -157,7 +158,7 @@ public class CategoryFragment extends Fragment {
 		mList.setAdapter(mAdapter);
 		
 		mList.setMultiChoiceModeListener(mChoiceListener);
-		mList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		mList.setChoiceMode(ListViewCompat.CHOICE_MODE_MULTIPLE_MODAL);
 		
 		return root;
 	}
@@ -165,7 +166,7 @@ public class CategoryFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setHasOptionsMenu(true);
+//		setHasOptionsMenu(true);
 		loadCategoryList();
 	}
 

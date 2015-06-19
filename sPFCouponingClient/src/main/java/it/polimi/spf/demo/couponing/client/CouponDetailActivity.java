@@ -1,23 +1,24 @@
 package it.polimi.spf.demo.couponing.client;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Loader;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CouponDetailActivity extends Activity {
+public class CouponDetailActivity extends AppCompatActivity {
 
 	private static final String EXTRA_COUPON_ID = "couponId";
 	private static final int COUPON_LOADER_ID = 0;
@@ -35,7 +36,7 @@ public class CouponDetailActivity extends Activity {
 	private ImageView mPhotoView;
 	private TextView mTitleView, mTextView, mCategoryView;
 	
-	private LoaderCallbacks<Coupon> mCouponLoaderCallbacks = new LoaderCallbacks<Coupon>() {
+	private LoaderManager.LoaderCallbacks<Coupon> mCouponLoaderCallbacks = new LoaderManager.LoaderCallbacks<Coupon>() {
 		
 		@Override
 		public void onLoaderReset(Loader<Coupon> arg0) {
@@ -85,7 +86,7 @@ public class CouponDetailActivity extends Activity {
 		mTextView = (TextView) findViewById(R.id.coupon_text);
 		mCategoryView = (TextView) findViewById(R.id.coupon_category);
 		
-		getLoaderManager().initLoader(COUPON_LOADER_ID, null, mCouponLoaderCallbacks).forceLoad();
+		getSupportLoaderManager().initLoader(COUPON_LOADER_ID, null, mCouponLoaderCallbacks).forceLoad();
 	}
 	
 	@Override
