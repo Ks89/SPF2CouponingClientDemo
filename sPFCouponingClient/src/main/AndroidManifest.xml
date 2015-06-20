@@ -1,11 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="it.polimi.spf.demo.couponing.client"
-    android:versionCode="1"
-    android:versionName="1.0" >
-
-    <uses-sdk
-        android:minSdkVersion="17"
-        android:targetSdkVersion="21" />
+    package="it.polimi.spf.demo.couponing.client">
 
     <application
         android:name=".ClientApplication"

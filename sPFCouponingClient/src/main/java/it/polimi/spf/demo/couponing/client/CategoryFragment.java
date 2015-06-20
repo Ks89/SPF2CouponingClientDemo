@@ -42,7 +42,7 @@ import android.widget.Toast;
 
 public class CategoryFragment extends Fragment {
 
-	public static Fragment newInstance() {
+	public static CategoryFragment newInstance() {
 		return new CategoryFragment();
 	}
 
@@ -154,7 +154,7 @@ public class CategoryFragment extends Fragment {
 		mList = (ListView) root.findViewById(R.id.category_list);
 		mList.setEmptyView(mEmptyView);
 		
-		mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_activated_1);
+		mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_activated_1);
 		mList.setAdapter(mAdapter);
 		
 		mList.setMultiChoiceModeListener(mChoiceListener);
@@ -166,7 +166,7 @@ public class CategoryFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-//		setHasOptionsMenu(true);
+		setHasOptionsMenu(true);
 		loadCategoryList();
 	}
 
@@ -212,7 +212,7 @@ public class CategoryFragment extends Fragment {
 		}
 	};
 
-	private void onCategoryAdd() {
+	public void onCategoryAdd() {
 		List<String> categories = ClientApplication.get().getCouponDatabase().getCategories();
 		Set<String> selected = getPreferences().getAll().keySet();
 		categories.removeAll(selected);
@@ -308,7 +308,7 @@ public class CategoryFragment extends Fragment {
 			catArray = new String[0];
 		}
 
-		List<String> cat = new ArrayList<String>(Arrays.asList(catArray));
+		List<String> cat = new ArrayList<>(Arrays.asList(catArray));
 		if (cat.indexOf(category) == -1) {
 			cat.add(category);
 			mContainer.setFieldValue(ProfileField.INTERESTS, cat.toArray(new String[cat.size()]));

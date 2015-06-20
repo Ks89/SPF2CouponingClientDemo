@@ -17,8 +17,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TabFragment.UpdateToolBarListener {
 
 	protected static final String TAG = "MainActivity";
 	private TabFragment tabFragment;
@@ -70,40 +71,53 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 	}
-	
-	private static class PagerConfigurator extends FragmentPagerAdapter {
 
-		private final static int PAGE_COUNT = 2;
+//
+//	private static class PagerConfigurator extends FragmentPagerAdapter {
+//
+//		private final static int PAGE_COUNT = 2;
+//
+//		private final String[] mPageTitles;
+//
+//		private PagerConfigurator(Context c, FragmentManager fm) {
+//			super(fm);
+//			this.mPageTitles = c.getResources().getStringArray(R.array.main_tabs_titles);
+//		}
+//
+//		@Override
+//		public Fragment getItem(int i) {
+//			switch (i) {
+//				case 0:
+//					return CouponManagerFragment.newInstance();
+//				case 1:
+//					return CategoryFragment.newInstance();
+//
+//				default:
+//					throw new IndexOutOfBoundsException("Requested page " + i + ", total " + PAGE_COUNT);
+//			}
+//		}
+//
+//		@Override
+//		public CharSequence getPageTitle(int position) {
+//			return mPageTitles[position];
+//		}
+//
+//		@Override
+//		public int getCount() {
+//			return PAGE_COUNT;
+//		}
+//	}
 
-		private final String[] mPageTitles;
 
-		private PagerConfigurator(Context c, FragmentManager fm) {
-			super(fm);
-			this.mPageTitles = c.getResources().getStringArray(R.array.main_tabs_titles);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_category_add:
+//				TabFragment.getCouponManagerFragment().onCategoryAdd();
+				tabFragment.getCategoryFragment().onCategoryAdd();
+				break;
 		}
-
-		@Override
-		public Fragment getItem(int i) {
-			switch (i) {
-				case 0:
-					return CouponManagerFragment.newInstance();
-				case 1:
-					return CategoryFragment.newInstance();
-
-				default:
-					throw new IndexOutOfBoundsException("Requested page " + i + ", total " + PAGE_COUNT);
-			}
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return mPageTitles[position];
-		}
-
-		@Override
-		public int getCount() {
-			return PAGE_COUNT;
-		}
+		return true;
 	}
 
 	/**
@@ -119,5 +133,20 @@ public class MainActivity extends AppCompatActivity {
 			this.setSupportActionBar(toolbar);
 		}
 	}
-	
+
+	@Override
+	public void updateToolbar(int tabPage) {
+//		setupToolBar();
+//		switch(tabPage) {
+//			case 0:
+//				toolbar.inflateMenu(R.menu.menu_category);
+//				break;
+//			case 1:
+//				toolbar.inflateMenu(R.menu.menu_category_action_mode);
+//				break;
+//			default:
+//				toolbar.inflateMenu(R.menu.menu_category);
+//				break;
+//		}
+	}
 }

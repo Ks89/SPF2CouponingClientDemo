@@ -27,8 +27,6 @@ import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 
-import java.util.Locale;
-
 import lombok.Getter;
 
 
@@ -44,6 +42,9 @@ public class TabFragment extends Fragment {
     @Getter
     private ViewPager mViewPager;
 
+    @Getter private static CouponManagerFragment couponManagerFragment;
+    @Getter private static CategoryFragment categoryFragment;
+
     /**
      * Method to obtain a new Fragment's instance.
      *
@@ -51,6 +52,8 @@ public class TabFragment extends Fragment {
      */
     public static TabFragment newInstance() {
         TabFragment fragment = new TabFragment();
+        couponManagerFragment = CouponManagerFragment.newInstance();
+        categoryFragment = CategoryFragment.newInstance();
         return fragment;
     }
 
@@ -58,6 +61,16 @@ public class TabFragment extends Fragment {
      * Default Fragment constructor.
      */
     public TabFragment() {
+    }
+
+
+
+    /**
+     * Callback interface to call methods reconnectToService in {@link it.polimi.spf.demo.couponing.client.MainActivity}.
+     * MainActivity implements this interface.
+     */
+    public interface UpdateToolBarListener {
+        void updateToolbar(int tabPage);
     }
 
 
@@ -81,6 +94,7 @@ public class TabFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 mSectionsPagerAdapter.notifyDataSetChanged();
+                ((UpdateToolBarListener) getActivity()).updateToolbar(position);
             }
         });
 
@@ -107,9 +121,9 @@ public class TabFragment extends Fragment {
         public Fragment getItem(int i) {
             switch (i) {
                 case 0:
-                    return CouponManagerFragment.newInstance();
+                    return couponManagerFragment;
                 case 1:
-                    return CategoryFragment.newInstance();
+                    return categoryFragment;
 
                 default:
                     throw new IndexOutOfBoundsException("Requested page " + i + ", total " + PAGE_COUNT);

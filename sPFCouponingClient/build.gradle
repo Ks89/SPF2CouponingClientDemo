@@ -8,6 +8,8 @@ android {
         applicationId "it.polimi.spf.demo.couponing.client"
         minSdkVersion 17
         targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {

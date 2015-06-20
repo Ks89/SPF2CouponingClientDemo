@@ -36,7 +36,7 @@ public class CouponManagerFragment extends Fragment {
 
 	private static final int LOADER_COUPON_ID = 0;
 
-	public static Fragment newInstance() {
+	public static CouponManagerFragment newInstance() {
 		return new CouponManagerFragment();
 	}
 
@@ -107,7 +107,7 @@ public class CouponManagerFragment extends Fragment {
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_coupon_detail, menu);
             mActionMode = mode;
-            mSelectedPositions = new HashSet<Integer>();
+            mSelectedPositions = new HashSet<>();
             return true;
         }
 

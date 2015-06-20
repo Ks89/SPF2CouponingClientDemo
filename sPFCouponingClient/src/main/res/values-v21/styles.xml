@@ -1,0 +1,66 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!-- the theme applied to the application or activity -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
+        <!--<item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>-->
+        <item name="android:popupBackground">#622389</item>
+        <item name="actionBarPopupTheme">@color/primary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorAccent">@color/accent</item>
+
+        <item name= "android:textColor">@color/accent</item>
+
+        <!--<item name="textColorPrimary"></item>-->
+        <!--<item name="windowBackground"></item>-->
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:navigationBarColor">@color/navigation_bar</item>
+
+
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="windowActionModeOverlay">true</item>-->
+        <!--<item name="windowActionBar">false</item>-->
+    </style>
+
+
+
+    <!-- Application theme. -->
+    <!--<style name="AppTheme" parent="AppBaseTheme">-->
+        <!--<item name="android:actionBarStyle">@style/ActionBarPlain</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+    <!--</style>-->
+
+    <!--<style name="ActionBarPlain" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
+        <!--<item name="android:background">@color/accent</item>-->
+    <!--</style>-->
+
+    <style name="detail_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">#fff</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="detail_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">@color/shadow</item>
+    </style>
+
+    <style name="detail_separator">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/shadow</item>
+    </style>
+
+    <style name="detail_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+</resources>
