@@ -10,6 +10,6 @@ import it.polimi.spf.lib.services.ServiceInvocationException;
 )
 public interface CouponDeliveryService {
 
-	public void deliverCoupon(Coupon coupon) throws ServiceInvocationException;
+	void deliverCoupon(Coupon coupon) throws ServiceInvocationException;
 
 }

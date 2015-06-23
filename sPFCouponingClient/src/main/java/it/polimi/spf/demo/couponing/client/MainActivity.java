@@ -5,15 +5,8 @@ import it.polimi.spf.shared.model.SPFError;
 import lombok.Getter;
 import lombok.Setter;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerTabStrip;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -30,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements TabFragment.Updat
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_2);
+		setContentView(R.layout.activity_main);
 
 		this.setupToolBar();
 
@@ -114,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements TabFragment.Updat
 		switch (item.getItemId()) {
 			case R.id.action_category_add:
 //				TabFragment.getCouponManagerFragment().onCategoryAdd();
-				tabFragment.getCategoryFragment().onCategoryAdd();
+				TabFragment.getCategoryFragment().onCategoryAdd();
 				break;
 		}
 		return true;

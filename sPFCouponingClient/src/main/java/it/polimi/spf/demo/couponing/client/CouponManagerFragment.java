@@ -17,6 +17,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.internal.widget.ListViewCompat;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -200,8 +201,14 @@ public class CouponManagerFragment extends Fragment {
 
 			holder.title.setText(coupon.getTitle());
 			holder.category.setText(coupon.getCategory());
-			holder.photo.setImageBitmap(BitmapFactory.decodeByteArray(coupon.getPhoto(), 0, coupon.getPhoto().length));
 
+			Log.d("CouponAdapter", "title: " + coupon.getTitle());
+			Log.d("CouponAdapter", "category: " + coupon.getCategory());
+
+			//TODO FIXME i'm using this if to prevent nullpointerexception, but obviously i must remove this in the future
+			if(holder.photo!=null && coupon.getPhoto()!=null) {
+				holder.photo.setImageBitmap(BitmapFactory.decodeByteArray(coupon.getPhoto(), 0, coupon.getPhoto().length));
+			}
 			return view;
 		}
 	}

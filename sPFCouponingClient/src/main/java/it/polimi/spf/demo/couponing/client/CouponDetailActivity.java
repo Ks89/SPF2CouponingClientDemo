@@ -79,7 +79,7 @@ public class CouponDetailActivity extends AppCompatActivity {
 		}
 		
 		mCouponId = source.getLong(EXTRA_COUPON_ID);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+//		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mPhotoView = (ImageView) findViewById(R.id.coupon_photo);
 		mTitleView = (TextView) findViewById(R.id.coupon_title);

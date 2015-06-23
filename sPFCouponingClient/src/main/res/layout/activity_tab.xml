@@ -9,7 +9,6 @@
     tools:context=".MainActivity"
     tools:ignore="MergeRootFrame" >
 
-    <!--<include layout="@layout/toolbar" />-->
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
