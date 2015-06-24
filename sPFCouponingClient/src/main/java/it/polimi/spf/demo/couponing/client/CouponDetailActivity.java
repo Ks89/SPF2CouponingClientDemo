@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class CouponDetailActivity extends AppCompatActivity {
 
 	private static final String EXTRA_COUPON_ID = "couponId";
@@ -47,12 +49,21 @@ public class CouponDetailActivity extends AppCompatActivity {
 		public void onLoadFinished(Loader<Coupon> arg0, Coupon coupon) {
 			Log.d(TAG, "Loaded coupon: " + coupon);
 			mCoupon = coupon;
-			Bitmap photo = BitmapFactory.decodeByteArray(coupon.getPhoto(), 0, coupon.getPhoto().length);
-			
-			mPhotoView.setImageBitmap(photo);
-			mTitleView.setText(coupon.getTitle());
-			mTextView.setText(coupon.getText());
-			mCategoryView.setText(coupon.getCategory());
+
+			if(coupon==null) {
+				return;
+			}
+
+			if(coupon.getPhoto()!=null) {
+				Bitmap photo = BitmapFactory.decodeByteArray(coupon.getPhoto(), 0, coupon.getPhoto().length);
+				mPhotoView.setImageBitmap(photo);
+			}
+
+			if(coupon.getTitle()!=null && coupon.getText()!=null && coupon.getCategory()!=null) {
+				mTitleView.setText(coupon.getTitle());
+				mTextView.setText(coupon.getText());
+				mCategoryView.setText(coupon.getCategory());
+			}
 		}
 		
 		@Override
@@ -61,6 +72,11 @@ public class CouponDetailActivity extends AppCompatActivity {
 
 				@Override
 				public Coupon loadInBackground() {
+					List<Coupon> list = ClientApplication.get().getCouponDatabase().getAllCoupons();
+					for(Coupon coupon : list) {
+						Log.d("COUPON LIST", "ELEMENT: " + coupon.toString());
+					}
+
 					return ClientApplication.get().getCouponDatabase().getCouponById(mCouponId);
 				}
 				
