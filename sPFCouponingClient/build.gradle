@@ -27,8 +27,8 @@ dependencies {
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.android.support:cardview-v7:22.2.0'
-    compile 'it.polimi.spf:spflib:1.0+@aar'
-    compile 'it.polimi.spf:spfshared:1.0+@aar'
+    compile 'it.polimi.spf:spflib:1.0.0.4@aar'
+    compile 'it.polimi.spf:spfshared:1.0.0.4@aar'
 
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
 

@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.polimi.spf.demo.couponing.client">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
     <application
         android:name=".ClientApplication"
         android:allowBackup="true"
@@ -19,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CouponDetailActivity"
+            android:name=".detail.CouponDetailActivity"
             android:icon="@drawable/ic_launcher"
             android:label="@string/activity_coupon_detail_title"
             android:theme="@style/AppTheme" />

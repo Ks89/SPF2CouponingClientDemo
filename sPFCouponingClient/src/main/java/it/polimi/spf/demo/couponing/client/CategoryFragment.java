@@ -248,7 +248,7 @@ public class CategoryFragment extends Fragment {
 
 	private boolean saveCategory(String category) {
 		if (mNotificationService == null) {
-			toast(R.string.error_notification_service_not_available);
+			toast(R.string.error_notification_service_unavailable);
 			return false;
 		}
 
@@ -262,7 +262,7 @@ public class CategoryFragment extends Fragment {
 		try {
 			t = new SPFTrigger("Category " + category + " trigger", q, a, SLEEP_PERIOD);
 		} catch (IllegalTriggerException e) {
-			toast(R.string.error_notification_service_not_available);
+			toast(R.string.error_notification_service_unavailable);
 			return false;
 		}
 
@@ -280,7 +280,7 @@ public class CategoryFragment extends Fragment {
 
     private void deleteCategory(String category) {
 		if(mNotificationService == null){
-			toast(R.string.error_notification_service_not_available);
+			toast(R.string.error_notification_service_unavailable);
 			return;
 		}
 		

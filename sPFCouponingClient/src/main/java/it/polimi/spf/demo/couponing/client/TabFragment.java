@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import it.polimi.spf.demo.couponing.client.coupons.CouponManagerFragment;
 import lombok.Getter;
 
 

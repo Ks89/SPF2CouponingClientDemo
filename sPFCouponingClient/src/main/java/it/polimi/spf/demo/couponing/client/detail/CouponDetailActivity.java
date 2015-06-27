@@ -1,24 +1,31 @@
-package it.polimi.spf.demo.couponing.client;
+package it.polimi.spf.demo.couponing.client.detail;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.List;
+
+import it.polimi.spf.demo.couponing.client.ClientApplication;
+import it.polimi.spf.demo.couponing.client.Coupon;
+import it.polimi.spf.demo.couponing.client.R;
+import it.polimi.spf.lib.notification.SPFNotification;
+import it.polimi.spf.shared.model.SPFError;
+import lombok.Getter;
+import lombok.Setter;
 
 public class CouponDetailActivity extends AppCompatActivity {
 
@@ -35,9 +42,15 @@ public class CouponDetailActivity extends AppCompatActivity {
 	private long mCouponId;
 	private Coupon mCoupon;
 	
-	private ImageView mPhotoView;
-	private TextView mTitleView, mTextView, mCategoryView;
-	
+	private SPFNotification mNotificationService;
+
+
+	private CouponDetailFragment couponDetailFragment;
+
+	@Getter
+	@Setter
+	private Toolbar toolbar;
+
 	private LoaderManager.LoaderCallbacks<Coupon> mCouponLoaderCallbacks = new LoaderManager.LoaderCallbacks<Coupon>() {
 		
 		@Override
@@ -49,21 +62,10 @@ public class CouponDetailActivity extends AppCompatActivity {
 		public void onLoadFinished(Loader<Coupon> arg0, Coupon coupon) {
 			Log.d(TAG, "Loaded coupon: " + coupon);
 			mCoupon = coupon;
+			Bitmap photo = BitmapFactory.decodeByteArray(coupon.getPhoto(), 0, coupon.getPhoto().length);
 
-			if(coupon==null) {
-				return;
-			}
+			couponDetailFragment.setPhotoAndCoupon(photo, mCoupon);
 
-			if(coupon.getPhoto()!=null) {
-				Bitmap photo = BitmapFactory.decodeByteArray(coupon.getPhoto(), 0, coupon.getPhoto().length);
-				mPhotoView.setImageBitmap(photo);
-			}
-
-			if(coupon.getTitle()!=null && coupon.getText()!=null && coupon.getCategory()!=null) {
-				mTitleView.setText(coupon.getTitle());
-				mTextView.setText(coupon.getText());
-				mCategoryView.setText(coupon.getCategory());
-			}
 		}
 		
 		@Override
@@ -72,11 +74,6 @@ public class CouponDetailActivity extends AppCompatActivity {
 
 				@Override
 				public Coupon loadInBackground() {
-					List<Coupon> list = ClientApplication.get().getCouponDatabase().getAllCoupons();
-					for(Coupon coupon : list) {
-						Log.d("COUPON LIST", "ELEMENT: " + coupon.toString());
-					}
-
 					return ClientApplication.get().getCouponDatabase().getCouponById(mCouponId);
 				}
 				
@@ -84,25 +81,65 @@ public class CouponDetailActivity extends AppCompatActivity {
 		}
 	};
 	
+	private SPFNotification.Callback mNotificationCallback = new SPFNotification.Callback() {
+		
+		@Override
+		public void onServiceReady(SPFNotification componentInstance) {
+			mNotificationService = componentInstance;
+			Log.d(TAG, "SPFNotification.Callback: onServiceReady");
+		}
+		
+		@Override
+		public void onError(SPFError err) {
+			Log.e(TAG, "Error in notification service: " + err);
+			mNotificationService = null;
+			Log.e(TAG, "SPFNotification.Callback: onError " + err);
+		}
+		
+		@Override
+		public void onDisconnect() {
+			mNotificationService = null;
+			Log.d(TAG, "SPFNotification.Callback: onDisconnect");
+		}
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_coupon_detail);
-		
+		setContentView(R.layout.activity_detail);
+
+		this.setupToolBar();
+
 		Bundle source = savedInstanceState != null ? savedInstanceState : getIntent().getExtras();
 		if(source == null || !source.containsKey(EXTRA_COUPON_ID)){
 			throw new IllegalStateException("Missing coupon ID");
 		}
-		
+
 		mCouponId = source.getLong(EXTRA_COUPON_ID);
-//		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		mPhotoView = (ImageView) findViewById(R.id.coupon_photo);
-		mTitleView = (TextView) findViewById(R.id.coupon_title);
-		mTextView = (TextView) findViewById(R.id.coupon_text);
-		mCategoryView = (TextView) findViewById(R.id.coupon_category);
-		
+
+		this.couponDetailFragment = CouponDetailFragment.newInstance();
+
+		this.getSupportFragmentManager().beginTransaction()
+				.replace(R.id.container_detail_root, this.couponDetailFragment , "couponCreationFragment")
+				.commit();
+
+		this.getSupportFragmentManager().executePendingTransactions();
+
 		getSupportLoaderManager().initLoader(COUPON_LOADER_ID, null, mCouponLoaderCallbacks).forceLoad();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		SPFNotification.load(this, mNotificationCallback);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(mNotificationService != null){
+			mNotificationService.disconnect();
+		}
 	}
 	
 	@Override
@@ -151,7 +188,34 @@ public class CouponDetailActivity extends AppCompatActivity {
 	}
 
 	private void onDelete(){
+		if(mNotificationService == null){
+			toast(R.string.error_notification_service_unavailable);
+			return;
+		}
+		
+		if(!mNotificationService.deleteTrigger(mCoupon.getId())){
+			toast(R.string.error_trigger_not_deleted);
+		}
+		
 		ClientApplication.get().getCouponDatabase().deleteCoupon(mCoupon);
 		finish();
+	}
+	
+	private void toast(int resId){
+		Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+	}
+
+	/**
+	 * Method to setup the {@link android.support.v7.widget.Toolbar}
+	 * as supportActionBar in this {@link android.support.v7.app.AppCompatActivity}.
+	 */
+	private void setupToolBar() {
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		if (toolbar != null) {
+			toolbar.setTitle(getResources().getString(R.string.app_name));
+			toolbar.setTitleTextColor(Color.WHITE);
+			toolbar.inflateMenu(R.menu.menu_coupon_detail);
+			this.setSupportActionBar(toolbar);
+		}
 	}
 }
