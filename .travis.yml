@@ -1,10 +1,12 @@
 language: android
+
+
+script: "./gradlew build"
+
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    # - platform-tools
-    # - tools
+    - platform-tools
+    - tools
 
     # The BuildTools version used by your project
     - build-tools-22.0.1
@@ -18,7 +20,21 @@ android:
     - extra-android-m2repository
     - addon-google_apis-google-19
 
+    - sys-img-armeabi-v7a-android-22
+
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
     # - sys-img-armeabi-v7a-android-19
     # - sys-img-x86-android-17
+
+
+deploy:
+    provider: releases
+api_key:
+    secure: Jph8pi3ZfveApJgeV6pE
+file: app/build/outputs/apk/app-debug.apk
+skip_cleanup: true
+on:
+    repo: Ks89/SPF2CouponingClientDemo
+    tags: true
+    all_branches: true
