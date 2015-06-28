@@ -19,44 +19,38 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ActionMode;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView;
+
+import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
+import com.bignerdranch.android.multiselector.MultiSelector;
 
 public class CouponManagerFragment extends Fragment implements
-//		//ItemClickListener is the interface in the adapter to intercept item's click events.
-//		//I use this to call itemClicked(v) in this class from CouponAdapter.
-		CouponAdapter.ItemClickListener {
+		//OnClickInterface is the interface in the adapter to intercept item's short and long click events.
+		CouponAdapter.OnClickInterface {
 
 	private static final int LOADER_COUPON_ID = 0;
+	private static final String TAG = "CouponManagerFragment";
 
 	public static CouponManagerFragment newInstance() {
 		return new CouponManagerFragment();
 	}
 
-	private TextView mEmpty;
-	private ActionMode mActionMode;
 	private RecyclerView mRecyclerView;
 
 	@Getter
 	private CouponAdapter mAdapter;
 
-	private final OnItemClickListener mCouponClickListener = new OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
-			Coupon c = (Coupon) parent.getItemAtPosition(position);
-			Intent i = CouponDetailActivity.newIntent(getActivity(), c.getId());
-			startActivity(i);
-		}
-	};
+	private MultiSelector mMultiSelector = new MultiSelector();
 
 	private LoaderManager.LoaderCallbacks<List<Coupon>> mLoaderCallbacks = new LoaderManager.LoaderCallbacks<List<Coupon>>() {
 
@@ -101,62 +95,42 @@ public class CouponManagerFragment extends Fragment implements
 			getLoaderManager().initLoader(LOADER_COUPON_ID, null, mLoaderCallbacks).forceLoad();
 		}
 	});
-	
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		super.setUserVisibleHint(isVisibleToUser);
-		
-		if(mActionMode != null && !isVisibleToUser){
-			mActionMode.finish();
+
+
+	private ModalMultiSelectorCallback mDeleteMode = new ModalMultiSelectorCallback(mMultiSelector) {
+
+		@Override
+		public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+			super.onCreateActionMode(actionMode, menu);
+			getActivity().getMenuInflater().inflate(R.menu.menu_coupon_detail, menu);
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+			if (menuItem.getItemId()==  R.id.action_coupon_delete){
+				// Need to finish the action mode before doing the following,
+				// not after. No idea why, but it crashes.
+				actionMode.finish();
+
+				for (int i = CouponList.getInstance().getCouponList().size(); i >= 0; i--) {
+					if (mMultiSelector.isSelected(i, 0)) {
+						Coupon coupon = CouponList.getInstance().getCouponList().get(i);
+						CouponList.getInstance().getCouponList().remove(coupon);
+						ClientApplication.get().getCouponDatabase().deleteCoupon(coupon);
+						mRecyclerView.getAdapter().notifyItemRemoved(i);
+						getLoaderManager().initLoader(LOADER_COUPON_ID, null, mLoaderCallbacks).forceLoad();
+
+					}
+				}
+
+				mMultiSelector.clearSelections();
+				return true;
+
+			}
+			return false;
 		}
 	};
-	
-//	private AbsListView.MultiChoiceModeListener mChoiceListener = new AbsListView.MultiChoiceModeListener() {
-//
-//        private Set<Integer> mSelectedPositions;
-//
-//        @Override
-//        public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-//            if(checked){
-//                mSelectedPositions.add(position);
-//            } else {
-//                mSelectedPositions.remove(position);
-//            }
-//        }
-//
-//        @Override
-//        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-//            MenuInflater inflater = mode.getMenuInflater();
-//            inflater.inflate(R.menu.menu_coupon_detail, menu);
-//            mActionMode = mode;
-//            mSelectedPositions = new HashSet<>();
-//            return true;
-//        }
-//
-//        @Override
-//        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-//            return false;
-//        }
-//
-//        @Override
-//        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-//            if(item.getItemId() == R.id.action_coupon_delete){
-//                for(int i : mSelectedPositions){
-//                    Coupon c = (Coupon) mCouponList.getItemAtPosition(i);
-//                    ClientApplication.get().getCouponDatabase().deleteCoupon(c);
-//                    getLoaderManager().initLoader(LOADER_COUPON_ID, null, mLoaderCallbacks).forceLoad();
-//                }
-//                mActionMode.finish();
-//            }
-//
-//            return false;
-//        }
-//
-//        @Override
-//        public void onDestroyActionMode(ActionMode mode) {
-//            mSelectedPositions = null;
-//            mActionMode = null;
-//        }
-//    };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -171,27 +145,38 @@ public class CouponManagerFragment extends Fragment implements
 		// allows for optimizations if all item views are of the same size:
 		mRecyclerView.setHasFixedSize(true);
 
-		mAdapter = new CouponAdapter(this);
+		mAdapter = new CouponAdapter(mMultiSelector, this);
 		mRecyclerView.setAdapter(mAdapter);
 		mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
 		return root;
-
-
-
-//		View root = inflater.inflate(R.layout.fragment_coupon_list, container, false);
-//		mCouponList = (ListView) root.findViewById(R.id.coupon_list);
-//		mEmpty = (TextView) root.findViewById(R.id.coupon_list_empty);
-//		mCouponList.setEmptyView(mEmpty);
-//		mCouponList.setOnItemClickListener(mCouponClickListener );
-//
-//		mCouponList.setMultiChoiceModeListener(mChoiceListener);
-//		mCouponList.setChoiceMode(ListViewCompat.CHOICE_MODE_MULTIPLE_MODAL);
-		
 	}
 
+	/**
+	 * Note: since the fragment is retained. the bundle passed in after state is restored is null.
+	 * THe only way to pass parcelable objects is through the activities onsavedInstanceState and appropiate startup lifecycle
+	 * However after having second thoughts, since the fragment is retained then all the states and instance variables are
+	 * retained as well. no need to make the selection states percelable therefore just check for the selectionstate
+	 * from the multiselector
+	 */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+
+		if (mMultiSelector != null) {
+			Bundle bundle = savedInstanceState;
+			if (bundle != null) {
+				mMultiSelector.restoreSelectionStates(bundle.getBundle(TAG));
+			}
+
+			if (mMultiSelector.isSelectable()) {
+				if (mDeleteMode != null) {
+					mDeleteMode.setClearOnPrepare(false);
+					((AppCompatActivity) getActivity()).startSupportActionMode(mDeleteMode);
+				}
+
+			}
+		}
+
 		super.onActivityCreated(savedInstanceState);
 	}
 
@@ -208,18 +193,18 @@ public class CouponManagerFragment extends Fragment implements
 		CouponDeliveryServiceImpl.removeCouponListener(mCouponListener);
 	}
 
-	/**
-	 * Method called by {@link it.polimi.spf.demo.couponing.client.coupons.CouponAdapter}
-	 * with the {@link it.polimi.spf.demo.couponing.client.coupons.CouponAdapter.ItemClickListener}
-	 * interface, when the user click on an element of the {@link android.support.v7.widget.RecyclerView}.
-	 * @param view The clicked view.
-	 */
-	@Override
-	public void itemClicked(View view) {
-		int clickedPosition = mRecyclerView.getChildLayoutPosition(view);
 
-		if(clickedPosition>=0) { //a little check :)
-			Coupon c = CouponList.getInstance().getCouponList().get(clickedPosition);
+	@Override
+	public void longClickOnItem(CouponAdapter.ViewHolder viewHolder) {
+		Log.d("CouponManagerFragment", "longClickOnItem coupon: " + viewHolder.getCoupon().toString());
+		((AppCompatActivity) getActivity()).startSupportActionMode(mDeleteMode);
+		mMultiSelector.setSelected(viewHolder, true);
+	}
+
+	@Override
+	public void clickOnItem(CouponAdapter.ViewHolder viewHolder) {
+		if (!mMultiSelector.tapSelection(viewHolder)) {
+			Coupon c = viewHolder.getCoupon();
 			Intent i = CouponDetailActivity.newIntent(getActivity(), c.getId());
 			startActivity(i);
 		}

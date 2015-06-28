@@ -32,6 +32,8 @@ dependencies {
 
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
 
+    compile 'com.bignerdranch.android:recyclerview-multiselect:+'
+
     compile 'com.android.support:support-v13:22.2.0'
 }
 

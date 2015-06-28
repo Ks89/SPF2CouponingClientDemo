@@ -13,8 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bignerdranch.android.multiselector.MultiSelector;
+import com.bignerdranch.android.multiselector.SwappingHolder;
+
 import it.polimi.spf.demo.couponing.client.Coupon;
 import it.polimi.spf.demo.couponing.client.R;
+import lombok.Getter;
 
 /**
  * Class CouponAdapter with the new RecyclerView (Lollipop) and
@@ -22,54 +26,30 @@ import it.polimi.spf.demo.couponing.client.R;
  * for performance reasons.
  * This class is the Adapter to represents data inside the {@link it.polimi.spf.demo.couponing.client.coupons.CouponManagerFragment}
  * <p></p>
- * Created by Stefano Cappa on 22/06/15.
+ * Created by Stefano Cappa on 28/06/15.
  */
 public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder> {
 
-    private final ItemClickListener itemClickListener;
+    private final MultiSelector mMultiSelector;
+    private final OnClickInterface clickListener;
 
     /**
      * Constructor of the adapter.
-     * @param itemClickListener ClickListener to obtain click actions over the recyclerview's elements.
+     * @param mMultiSelector
+     * @param clickListener
      */
-    public CouponAdapter(@NonNull ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-        setHasStableIds(true);
+    public CouponAdapter(MultiSelector mMultiSelector, OnClickInterface clickListener) {
+        this.mMultiSelector = mMultiSelector;
+        this.clickListener = clickListener;
     }
 
     /**
      * {@link it.polimi.spf.demo.couponing.client.coupons.CouponManagerFragment} implements this interface
      */
-    public interface ItemClickListener {
-        void itemClicked(final View view);
+    public interface OnClickInterface {
+        void longClickOnItem(CouponAdapter.ViewHolder viewHolder);
+        void clickOnItem(CouponAdapter.ViewHolder viewHolder);
     }
-
-
-    /**
-     * The ViewHolder of this Adapter, useful to store e recycle element for performance reasons.
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final View parent;
-        private final ImageView photo;
-        private final TextView title;
-        private final TextView category;
-
-        public ViewHolder(View view) {
-            super(view);
-
-            this.parent = view;
-
-            photo = (ImageView) view.findViewById(R.id.coupon_entry_photo);
-            title = (TextView) view.findViewById(R.id.coupon_entry_title);
-            category = (TextView) view.findViewById(R.id.coupon_entry_category);
-        }
-
-
-        public void setOnClickListener(View.OnClickListener listener) {
-            parent.setOnClickListener(listener);
-        }
-    }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -81,26 +61,58 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-
         Coupon coupon = CouponList.getInstance().getCouponList().get(position);
-
-        if (coupon != null) {
-            viewHolder.photo.setImageBitmap(BitmapFactory.decodeByteArray(coupon.getPhoto(), 0, coupon.getPhoto().length));
-            viewHolder.title.setText(coupon.getTitle());
-            viewHolder.category.setText(coupon.getCategory());
-        }
-
-        viewHolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.itemClicked(v);
-            }
-        });
+        viewHolder.bind(coupon);
     }
-
 
     @Override
     public int getItemCount() {
         return CouponList.getInstance().getCouponList().size();
     }
+
+    /**
+     * The ViewHolder of this Adapter, useful to store e recycle element for performance reasons.
+     */
+    public class ViewHolder extends SwappingHolder implements View.OnClickListener, View.OnLongClickListener {
+        private final ImageView photo;
+        private final TextView title;
+        private final TextView category;
+        @Getter private Coupon coupon;
+
+        public ViewHolder(View itemView) {
+            super(itemView, mMultiSelector);
+
+            photo = (ImageView) itemView.findViewById(R.id.coupon_entry_photo);
+            title = (TextView) itemView.findViewById(R.id.coupon_entry_title);
+            category = (TextView) itemView.findViewById(R.id.coupon_entry_category);
+
+            itemView.setOnClickListener(this);
+            itemView.setLongClickable(true);
+            itemView.setOnLongClickListener(this);
+        }
+
+        public void bind(Coupon coupon) {
+            this.coupon = coupon;
+
+            photo.setImageBitmap(BitmapFactory.decodeByteArray(coupon.getPhoto(), 0, coupon.getPhoto().length));
+            title.setText(coupon.getTitle());
+            category.setText(coupon.getCategory());
+        }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.clickOnItem(this);
+        }
+
+
+        @Override
+        public boolean onLongClick(View v) {
+            clickListener.longClickOnItem(this);
+            return true;
+        }
+    }
+
+
+
+
 }
