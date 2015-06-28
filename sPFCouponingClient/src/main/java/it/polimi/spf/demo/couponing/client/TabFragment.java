@@ -65,16 +65,6 @@ public class TabFragment extends Fragment {
     }
 
 
-
-    /**
-     * Callback interface to call methods reconnectToService in {@link it.polimi.spf.demo.couponing.client.MainActivity}.
-     * MainActivity implements this interface.
-     */
-    public interface UpdateToolBarListener {
-        void updateToolbar(int tabPage);
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_tab, container, false);
@@ -95,7 +85,6 @@ public class TabFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 mSectionsPagerAdapter.notifyDataSetChanged();
-                ((UpdateToolBarListener) getActivity()).updateToolbar(position);
             }
         });
 

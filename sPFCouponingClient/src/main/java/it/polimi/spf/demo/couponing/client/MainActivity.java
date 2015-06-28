@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity implements TabFragment.UpdateToolBarListener {
+public class MainActivity extends AppCompatActivity {
 
 	protected static final String TAG = "MainActivity";
 	private TabFragment tabFragment;
@@ -35,15 +35,7 @@ public class MainActivity extends AppCompatActivity implements TabFragment.Updat
 
 		this.getSupportFragmentManager().executePendingTransactions();
 
-		//register service
 		registerService();
-
-//		ViewPager pager = (ViewPager) findViewById(R.id.main_pager);
-//		pager.setAdapter(new PagerConfigurator(this, getSupportFragmentManager()));
-//
-//
-//		PagerTabStrip tabs = (PagerTabStrip) findViewById(R.id.main_tabs);
-//		tabs.setTabIndicatorColorResource(R.color.selection);
 	}
 
 	private void registerService(){
@@ -65,43 +57,6 @@ public class MainActivity extends AppCompatActivity implements TabFragment.Updat
 		});
 	}
 
-//
-//	private static class PagerConfigurator extends FragmentPagerAdapter {
-//
-//		private final static int PAGE_COUNT = 2;
-//
-//		private final String[] mPageTitles;
-//
-//		private PagerConfigurator(Context c, FragmentManager fm) {
-//			super(fm);
-//			this.mPageTitles = c.getResources().getStringArray(R.array.main_tabs_titles);
-//		}
-//
-//		@Override
-//		public Fragment getItem(int i) {
-//			switch (i) {
-//				case 0:
-//					return CouponManagerFragment.newInstance();
-//				case 1:
-//					return CategoryFragment.newInstance();
-//
-//				default:
-//					throw new IndexOutOfBoundsException("Requested page " + i + ", total " + PAGE_COUNT);
-//			}
-//		}
-//
-//		@Override
-//		public CharSequence getPageTitle(int position) {
-//			return mPageTitles[position];
-//		}
-//
-//		@Override
-//		public int getCount() {
-//			return PAGE_COUNT;
-//		}
-//	}
-
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -115,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements TabFragment.Updat
 
 	/**
 	 * Method to setup the {@link android.support.v7.widget.Toolbar}
-	 * as supportActionBar in this {@link android.support.v7.app.ActionBarActivity}.
+	 * as supportActionBar in this {@link android.support.v7.app.AppCompatActivity}.
 	 */
 	private void setupToolBar() {
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -127,19 +82,14 @@ public class MainActivity extends AppCompatActivity implements TabFragment.Updat
 		}
 	}
 
-	@Override
-	public void updateToolbar(int tabPage) {
-//		setupToolBar();
-//		switch(tabPage) {
-//			case 0:
-//				toolbar.inflateMenu(R.menu.menu_category);
-//				break;
-//			case 1:
-//				toolbar.inflateMenu(R.menu.menu_category_action_mode);
-//				break;
-//			default:
-//				toolbar.inflateMenu(R.menu.menu_category);
-//				break;
-//		}
+	public void updateToolbar(int menuResource) {
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+		if (toolbar != null) {
+			toolbar.setTitle(getResources().getString(R.string.app_name));
+			toolbar.setTitleTextColor(Color.WHITE);
+			toolbar.inflateMenu(menuResource);
+			this.setSupportActionBar(toolbar);
+		}
 	}
 }
