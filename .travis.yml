@@ -14,10 +14,10 @@ android:
     - android-22
 
     # Additional components
-    - extra-google-google_play_services
+    # - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
-    - addon-google_apis-google-19
+    - addon-google_apis-google-22
 
     - sys-img-armeabi-v7a-android-22
 
