@@ -1,3 +1,6 @@
+apply plugin: "sonar-runner"
+
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -8,6 +11,14 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.3'
+    }
+}
+
+subprojects {
+    sonarRunner {
+        sonarProperties {
+            properties["sonar.sources"] += "src/main/java"
+        }
     }
 }
 
