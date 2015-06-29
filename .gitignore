@@ -32,3 +32,4 @@ proguard/
 
 .idea
 sPFCouponingClient/sPFCouponingClient.iml
+gradle

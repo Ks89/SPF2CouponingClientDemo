@@ -4,7 +4,6 @@ import it.polimi.spf.demo.couponing.client.ClientApplication;
 import it.polimi.spf.demo.couponing.client.Coupon;
 import it.polimi.spf.demo.couponing.client.CouponDeliveryServiceImpl;
 import it.polimi.spf.demo.couponing.client.CouponDeliveryServiceImpl.CouponListener;
-import it.polimi.spf.demo.couponing.client.MainActivity;
 import it.polimi.spf.demo.couponing.client.R;
 import it.polimi.spf.demo.couponing.client.detail.CouponDetailActivity;
 import it.polimi.spf.lib.LooperUtils;
@@ -111,7 +110,7 @@ public class CouponManagerFragment extends Fragment implements
 		public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
 			if (menuItem.getItemId()==  R.id.action_coupon_delete){
 				// Need to finish the action mode before doing the following,
-				// not after. No idea why, but it crashes. (written by the creator of the Recyclerview Multiselect library)
+				// not after. No idea why, but it cr	ashes. (written by the creator of the Recyclerview Multiselect library)
 				actionMode.finish();
 
 				for (int i = CouponList.getInstance().getCouponList().size(); i >= 0; i--) {
