@@ -20,6 +20,7 @@
 
     <string name="error_trigger_not_deleted">Error: Trigger not deleted</string>
     <string name="error_notification_service_unavailable">Error: SPF notification not available</string>
+    <string name="error_no_categories_available">No categories available</string>
     <string name="error_profile_service_not_available">Profile service not available</string>    
     <string name="error_trigger_invalid">Trigger is not valid</string>
     <string name="error_cannot_save_trigger">Cannot save trigger</string>

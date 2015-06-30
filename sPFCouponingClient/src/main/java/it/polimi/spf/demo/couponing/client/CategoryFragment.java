@@ -216,28 +216,34 @@ public class CategoryFragment extends Fragment {
 		List<String> categories = ClientApplication.get().getCouponDatabase().getCategories();
 		Set<String> selected = getPreferences().getAll().keySet();
 		categories.removeAll(selected);
-		
+
+		if(categories.size()==0) {
+			Toast.makeText(this.getActivity(), this.getResources().getString(R.string.error_no_categories_available), Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		final CategoryDialogView view = new CategoryDialogView(getActivity(), categories);
 
 		new AlertDialog.Builder(getActivity())
-		.setTitle("Add category")
-		.setView(view)
-		.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+			.setTitle("Add category")
+			.setView(view)
+			.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				String category = view.getSelectedCategory();
-				if (!saveCategory(category)) {
-					return;
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					String category = view.getSelectedCategory();
+
+					if (!saveCategory(category)) {
+						return;
+					}
+
+					if (view.isProfileOptionChecked()) {
+						addCategoryToProfile(category);
+					}
+
+					loadCategoryList();
 				}
-
-				if (view.isProfileOptionChecked()) {
-					addCategoryToProfile(category);
-				}
-
-				loadCategoryList();
-			}
-		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {

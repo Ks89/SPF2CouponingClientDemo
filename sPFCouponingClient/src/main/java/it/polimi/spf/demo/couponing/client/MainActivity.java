@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_category_add:
-//				TabFragment.getCouponManagerFragment().onCategoryAdd();
 				TabFragment.getCategoryFragment().onCategoryAdd();
 				break;
 		}
@@ -78,17 +77,6 @@ public class MainActivity extends AppCompatActivity {
 			toolbar.setTitle(getResources().getString(R.string.app_name));
 			toolbar.setTitleTextColor(Color.WHITE);
 			toolbar.inflateMenu(R.menu.menu_category);
-			this.setSupportActionBar(toolbar);
-		}
-	}
-
-	public void updateToolbar(int menuResource) {
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-		if (toolbar != null) {
-			toolbar.setTitle(getResources().getString(R.string.app_name));
-			toolbar.setTitleTextColor(Color.WHITE);
-			toolbar.inflateMenu(menuResource);
 			this.setSupportActionBar(toolbar);
 		}
 	}
