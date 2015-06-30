@@ -8,6 +8,11 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import it.polimi.spf.demo.couponing.client.coupons.CouponList;
 import it.polimi.spf.lib.services.SPFServiceEndpoint;
 import it.polimi.spf.lib.services.ServiceInvocationException;
 
@@ -37,16 +42,33 @@ public class CouponDeliveryServiceImpl extends SPFServiceEndpoint implements Cou
 		}
 	}
 
+
+	private boolean checkIfExists (Coupon coupon) {
+		for(Coupon couponElem : CouponList.getInstance().getCouponList()) {
+			if(couponElem.getTitle().equals(coupon.getTitle()) && couponElem.getCategory().equals(coupon.getCategory()) &&
+					couponElem.getText().equals(coupon.getText())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public void deliverCoupon(Coupon coupon) throws ServiceInvocationException {
 		Log.d(TAG, "Incoming coupon: " + coupon);
-		ClientApplication.get().getCouponDatabase().saveCoupon(coupon);
-		CouponListener listener;
-		synchronized (LOCK) {
-			listener = sCouponHandler != null ? sCouponHandler : sDefaultHandler;
-		}
 
-		listener.onCouponReceived(coupon, this);
+		//now i'll remove duplicates adding only different coupons in the db
+		if(!checkIfExists(coupon)) {
+			Log.d(TAG,"Adding coupon: " + coupon);
+
+			ClientApplication.get().getCouponDatabase().saveCoupon(coupon);
+			CouponListener listener;
+			synchronized (LOCK) {
+				listener = sCouponHandler != null ? sCouponHandler : sDefaultHandler;
+			}
+
+			listener.onCouponReceived(coupon, this);
+		}
 	}
 
 	private static class NotificationEmitter implements CouponListener {

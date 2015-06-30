@@ -93,6 +93,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/sonar" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
@@ -109,5 +110,9 @@
     <orderEntry type="library" exported="" name="library-1.0.6" level="project" />
     <orderEntry type="library" exported="" name="spfshared-1.0.0.4" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
+  </component>
+  <component name="sonarModuleSettings">
+    <option name="localAnalysisScripName" value="&lt;PROJECT&gt;" />
+    <option name="serverName" value="&lt;PROJECT&gt;" />
   </component>
 </module>

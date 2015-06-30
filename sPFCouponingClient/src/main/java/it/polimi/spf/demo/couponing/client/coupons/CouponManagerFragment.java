@@ -9,7 +9,6 @@ import it.polimi.spf.demo.couponing.client.detail.CouponDetailActivity;
 import it.polimi.spf.lib.LooperUtils;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -62,18 +61,9 @@ public class CouponManagerFragment extends Fragment implements
 
 		@Override
 		public void onLoadFinished(Loader<List<Coupon>> arg0, List<Coupon> coupons) {
-			List<Coupon> couponToAdd = new ArrayList<>();
-
-			//now i'll remove duplicates
-			for(Coupon coupon : coupons) {
-				Log.d(TAG, "Reading coupons: " + coupon);
-				if(!checkIfExists(coupon)) {
-					couponToAdd.add(coupon);
-				}
-			}
-
+			//load the entire db and update the gui with all available coupons
 			CouponList.getInstance().getCouponList().clear();
-			CouponList.getInstance().getCouponList().addAll(couponToAdd);
+			CouponList.getInstance().getCouponList().addAll(coupons);
 			mAdapter.notifyDataSetChanged();
 		}
 
@@ -88,16 +78,6 @@ public class CouponManagerFragment extends Fragment implements
 			};
 		}
 	};
-
-	private boolean checkIfExists (Coupon coupon) {
-		for(Coupon couponElem : CouponList.getInstance().getCouponList()) {
-			if(couponElem.getTitle().equals(coupon.getTitle()) && couponElem.getCategory().equals(coupon.getCategory()) &&
-					couponElem.getText().equals(coupon.getText())) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	private CouponListener mCouponListener = LooperUtils.onMainThread(CouponListener.class, new CouponListener() {
 		
