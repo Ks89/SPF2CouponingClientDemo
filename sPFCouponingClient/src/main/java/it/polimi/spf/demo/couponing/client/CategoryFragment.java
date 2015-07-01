@@ -55,7 +55,6 @@ public class CategoryFragment extends Fragment {
 	private SPFNotification mNotificationService;
 	private ProfileFieldContainer mContainer;
 
-	private TextView mEmptyView;
 	private ListView mList;
 	private ArrayAdapter<String> mAdapter;
 	private ActionMode mActionMode;
@@ -128,10 +127,17 @@ public class CategoryFragment extends Fragment {
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            if(item.getItemId() == R.id.action_category_delete){
-                for(int i : mSelectedPositions){
-                    deleteCategory((String) mList.getItemAtPosition(i));
+            if(item.getItemId() == R.id.action_category_delete) {
+                for(int i : mSelectedPositions) {
+					String category = (String) mList.getItemAtPosition(i);
+
+                    //remove category in this app
+					deleteCategory(category);
+
+					//remove category in SPFApp + Framework
+					removeCategoryFromProfile(category);
                 }
+
                 loadCategoryList();
                 mActionMode.finish();
             }
@@ -150,7 +156,7 @@ public class CategoryFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View root = inflater.inflate(R.layout.fragment_category_list, container, false);
 
-		mEmptyView = (TextView) root.findViewById(R.id.category_list_empty);
+		TextView mEmptyView = (TextView) root.findViewById(R.id.category_list_empty);
 		mList = (ListView) root.findViewById(R.id.category_list);
 		mList.setEmptyView(mEmptyView);
 		
@@ -317,6 +323,27 @@ public class CategoryFragment extends Fragment {
 		List<String> cat = new ArrayList<>(Arrays.asList(catArray));
 		if (cat.indexOf(category) == -1) {
 			cat.add(category);
+			mContainer.setFieldValue(ProfileField.INTERESTS, cat.toArray(new String[cat.size()]));
+			mLocalProfile.setValueBulk(mContainer);
+			mContainer.clearModified();
+		}
+	}
+
+
+	private void removeCategoryFromProfile(String category) {
+		if (mContainer == null) {
+			toast(R.string.error_profile_service_not_available);
+			return;
+		}
+
+		String[] catArray = mContainer.getFieldValue(ProfileField.INTERESTS);
+		if (catArray == null) {
+			catArray = new String[0];
+		}
+
+		List<String> cat = new ArrayList<>(Arrays.asList(catArray));
+		if (cat.indexOf(category) != -1) {
+			cat.remove(category);
 			mContainer.setFieldValue(ProfileField.INTERESTS, cat.toArray(new String[cat.size()]));
 			mLocalProfile.setValueBulk(mContainer);
 			mContainer.clearModified();

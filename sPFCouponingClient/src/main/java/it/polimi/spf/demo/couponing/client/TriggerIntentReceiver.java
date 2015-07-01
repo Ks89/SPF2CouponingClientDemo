@@ -32,7 +32,7 @@ public class TriggerIntentReceiver extends BroadcastReceiver {
 		Map<String, ?> prefs = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE).getAll();
 		String category = null;
 		for(Map.Entry<String, ?> entry : prefs.entrySet()){
-			if(((Long) entry.getValue()).equals(triggerId)){
+			if((entry.getValue()).equals(triggerId)){
 				category = entry.getKey();
 				break;
 			}
