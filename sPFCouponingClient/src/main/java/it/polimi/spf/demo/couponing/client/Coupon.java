@@ -9,6 +9,14 @@ import lombok.Setter;
 
 public class Coupon {
 
+
+	/*
+	 * ----------------------------ATTENTION-----------------------------------------------
+	 * When you modify this class on Client you must update also Coupon class on Provider,
+	 * because GSon (JSON library) uses Coupon.java.
+	 * ------------------------------------------------------------------------------------
+	 */
+
 	public interface Contract extends BaseColumns {
 		String TABLE_NAME = "coupons";
 		String COLUMN_TITLE = "coupon_title";
