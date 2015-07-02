@@ -50,9 +50,9 @@ public class CouponManagerFragment extends Fragment implements
 	@Getter
 	private CouponAdapter mAdapter;
 
-	private MultiSelector mMultiSelector = new MultiSelector();
+	private final MultiSelector mMultiSelector = new MultiSelector();
 
-	private LoaderManager.LoaderCallbacks<List<Coupon>> mLoaderCallbacks = new LoaderManager.LoaderCallbacks<List<Coupon>>() {
+	private final LoaderManager.LoaderCallbacks<List<Coupon>> mLoaderCallbacks = new LoaderManager.LoaderCallbacks<List<Coupon>>() {
 
 		@Override
 		public void onLoaderReset(Loader<List<Coupon>> arg0) {
@@ -79,7 +79,7 @@ public class CouponManagerFragment extends Fragment implements
 		}
 	};
 
-	private CouponListener mCouponListener = LooperUtils.onMainThread(CouponListener.class, new CouponListener() {
+	private final CouponListener mCouponListener = LooperUtils.onMainThread(CouponListener.class, new CouponListener() {
 		
 		@Override
 		public void onCouponReceived(Coupon coupon, Context context) {
@@ -92,7 +92,7 @@ public class CouponManagerFragment extends Fragment implements
 	});
 
 
-	private ModalMultiSelectorCallback mDeleteMode = new ModalMultiSelectorCallback(mMultiSelector) {
+	private final ModalMultiSelectorCallback mDeleteMode = new ModalMultiSelectorCallback(mMultiSelector) {
 
 		@Override
 		public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -158,9 +158,8 @@ public class CouponManagerFragment extends Fragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 
 		if (mMultiSelector != null) {
-			Bundle bundle = savedInstanceState;
-			if (bundle != null) {
-				mMultiSelector.restoreSelectionStates(bundle.getBundle(TAG));
+			if (savedInstanceState != null) {
+				mMultiSelector.restoreSelectionStates(savedInstanceState.getBundle(TAG));
 			}
 
 			if (mMultiSelector.isSelectable()) {

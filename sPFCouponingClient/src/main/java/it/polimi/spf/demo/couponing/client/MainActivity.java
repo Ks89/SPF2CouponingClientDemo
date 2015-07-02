@@ -15,7 +15,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
 	protected static final String TAG = "MainActivity";
-	private TabFragment tabFragment;
+
 	@Getter
 	@Setter
 	private Toolbar toolbar;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
 		this.setupToolBar();
 
-		tabFragment = TabFragment.newInstance();
+		TabFragment tabFragment = TabFragment.newInstance();
 
 		this.getSupportFragmentManager().beginTransaction()
 				.replace(R.id.container_root, tabFragment, "tabfragment")

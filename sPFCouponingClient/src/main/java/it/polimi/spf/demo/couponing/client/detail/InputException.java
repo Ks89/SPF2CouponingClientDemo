@@ -6,7 +6,7 @@ package it.polimi.spf.demo.couponing.client.detail;
 
 public class InputException extends Exception {
 
-    private int mMessageResId;
+    private final int mMessageResId;
 
     public InputException(int messageResId) {
         super();

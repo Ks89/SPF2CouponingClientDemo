@@ -51,7 +51,7 @@ public class CouponDetailActivity extends AppCompatActivity {
 	@Setter
 	private Toolbar toolbar;
 
-	private LoaderManager.LoaderCallbacks<Coupon> mCouponLoaderCallbacks = new LoaderManager.LoaderCallbacks<Coupon>() {
+	private final LoaderManager.LoaderCallbacks<Coupon> mCouponLoaderCallbacks = new LoaderManager.LoaderCallbacks<Coupon>() {
 		
 		@Override
 		public void onLoaderReset(Loader<Coupon> arg0) {
@@ -81,7 +81,7 @@ public class CouponDetailActivity extends AppCompatActivity {
 		}
 	};
 	
-	private SPFNotification.Callback mNotificationCallback = new SPFNotification.Callback() {
+	private final SPFNotification.Callback mNotificationCallback = new SPFNotification.Callback() {
 		
 		@Override
 		public void onServiceReady(SPFNotification componentInstance) {

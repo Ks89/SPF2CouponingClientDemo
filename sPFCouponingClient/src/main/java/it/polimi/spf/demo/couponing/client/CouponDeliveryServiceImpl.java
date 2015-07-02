@@ -19,7 +19,7 @@ public class CouponDeliveryServiceImpl extends SPFServiceEndpoint implements Cou
 	private static final String TAG = "CouponDeliveryService";
 
 	private static CouponListener sCouponHandler;
-	private static CouponListener sDefaultHandler = new NotificationEmitter();
+	private static final CouponListener sDefaultHandler = new NotificationEmitter();
 
 	public interface CouponListener {
 		void onCouponReceived(Coupon coupon, Context context);

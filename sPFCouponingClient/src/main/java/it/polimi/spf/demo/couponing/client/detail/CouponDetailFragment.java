@@ -30,8 +30,7 @@ public class CouponDetailFragment extends Fragment {
      * @return A new instance of fragment CouponCreateFragment.
      */
     public static CouponDetailFragment newInstance() {
-        CouponDetailFragment fragment = new CouponDetailFragment();
-        return fragment;
+        return new CouponDetailFragment();
     }
 
     public CouponDetailFragment() {
@@ -46,10 +45,6 @@ public class CouponDetailFragment extends Fragment {
         mCategoryView.setText(coupon.getCategory());
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,21 +59,4 @@ public class CouponDetailFragment extends Fragment {
         return view;
     }
 
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-//        try {
-//            mListener = (OnFragmentInteractionListener) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-//        mListener = null;
-    }
 }

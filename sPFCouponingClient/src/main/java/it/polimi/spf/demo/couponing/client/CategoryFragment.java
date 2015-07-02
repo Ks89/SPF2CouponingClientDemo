@@ -98,7 +98,7 @@ public class CategoryFragment extends Fragment {
 		}
 	};
 
-	private AbsListView.MultiChoiceModeListener mChoiceListener = new AbsListView.MultiChoiceModeListener() {
+	private final AbsListView.MultiChoiceModeListener mChoiceListener = new AbsListView.MultiChoiceModeListener() {
 
         private Set<Integer> mSelectedPositions;
 
@@ -216,7 +216,7 @@ public class CategoryFragment extends Fragment {
 		if(mActionMode != null && !isVisibleToUser){
 			mActionMode.finish();
 		}
-	};
+	}
 
 	public void onCategoryAdd() {
 		List<String> categories = ClientApplication.get().getCouponDatabase().getCategories();
@@ -370,8 +370,8 @@ public class CategoryFragment extends Fragment {
 
 	private class CategoryDialogView extends LinearLayout {
 
-		private Spinner mCategorySpinner;
-		private CheckBox mProfileCheckbox;
+		private final Spinner mCategorySpinner;
+		private final CheckBox mProfileCheckbox;
 
 		public CategoryDialogView(Context context, List<String> categories) {
 			super(context);
@@ -380,7 +380,7 @@ public class CategoryFragment extends Fragment {
 			mCategorySpinner = (Spinner) findViewById(R.id.category_dialog_spinner);
 			mProfileCheckbox = (CheckBox) findViewById(R.id.category_dialog_profile_check);
 
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, categories);
+			ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, categories);
 			mCategorySpinner.setAdapter(adapter);
 		}
 

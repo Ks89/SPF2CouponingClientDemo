@@ -66,7 +66,7 @@ public class CouponDatabase extends SQLiteOpenHelper {
 				Coupon.Contract.COLUMN_TITLE + " DESC"// orderby
 		);
 
-		List<Coupon> result = new ArrayList<Coupon>();
+		List<Coupon> result = new ArrayList<>();
 		while (c.moveToNext()) {
 			result.add(Coupon.fromCursor(c));
 		}
