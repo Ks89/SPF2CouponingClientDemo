@@ -41,7 +41,8 @@ public class CouponDeliveryServiceImpl extends SPFServiceEndpoint implements Cou
 
 
 	private boolean checkIfExists (Coupon coupon) {
-		for(Coupon couponElem : CouponList.getInstance().getCouponList()) {
+		for(Coupon couponElem :  ClientApplication.get().getCouponDatabase().getAllCoupons()) {
+			Log.d(TAG, "checkIfExists: " + couponElem);
 			if(couponElem.getTitle().equals(coupon.getTitle()) && couponElem.getCategory().equals(coupon.getCategory()) &&
 					couponElem.getText().equals(coupon.getText())) {
 				return true;

@@ -26,18 +26,15 @@ public class CouponDatabase extends SQLiteOpenHelper {
 	
 	private static final String COMMA_SEP = ",";
 
-	//@formatter:off
 	private static final String CREATE_SQL = "CREATE TABLE " + Coupon.Contract.TABLE_NAME + " ("
 			+ Coupon.Contract._ID               + INTEGER_TYPE + " PRIMARY KEY" + COMMA_SEP
 			+ Coupon.Contract.COLUMN_TITLE      + TEXT_TYPE    + COMMA_SEP
 			+ Coupon.Contract.COLUMN_TEXT       + TEXT_TYPE    + COMMA_SEP
 			+ Coupon.Contract.COLUMN_CATEGORY   + TEXT_TYPE    + COMMA_SEP
 			+ Coupon.Contract.COLUMN_PHOTO      + BLOB_TYPE + ")";
-	
-	//@formatter:on
 
 	/**
-	 * Constructor for {@link ChatStorage}
+	 * Constructor for {@link CouponDatabase}
 	 * 
 	 * @param ctx
 	 *            - the Context in which the database should be created
