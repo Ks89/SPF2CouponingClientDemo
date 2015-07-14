@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import it.polimi.spf.demo.couponing.client.coupons.CouponList;
 import it.polimi.spf.lib.services.SPFServiceEndpoint;
 import it.polimi.spf.lib.services.ServiceInvocationException;
 
