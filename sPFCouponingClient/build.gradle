@@ -63,8 +63,8 @@ dependencies {
     compile 'com.android.support:support-v13:23.1.0'
     compile 'com.android.support:design:23.1.0'
 
-    compile 'it.polimi.spf:spflib:1.0.0.18@aar'
-    compile 'it.polimi.spf:spfshared:1.0.0.15@aar'
+    compile 'it.polimi.spf:spflib:2.0.0.0@aar'
+    compile 'it.polimi.spf:spfshared:2.0.0.0@aar'
 
     //TODO replace this with the newer design library
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
