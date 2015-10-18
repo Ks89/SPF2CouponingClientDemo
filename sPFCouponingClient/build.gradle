@@ -44,6 +44,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    //travis ci
     lintOptions {
         abortOnError false
     }
