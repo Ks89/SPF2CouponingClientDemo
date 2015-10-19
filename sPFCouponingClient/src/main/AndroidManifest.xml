@@ -6,6 +6,7 @@
     <application
         android:name=".ClientApplication"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
