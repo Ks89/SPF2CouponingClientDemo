@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Couponing Client</string>
+    <string name="app_name">CouponClient</string>
 	<string name="activity_coupon_detail_title">Coupon detail</string>
     <string name="action_coupon_delete">Delete coupon</string>
     <string name="action_category_add">Add category</string>
