@@ -3,6 +3,7 @@ buildscript {
     repositories {
         jcenter()
 //        maven {
+//        //use this if you want to use a local Sonatype nexus server -> only during development
 //            url "http://localhost:8081/nexus/content/groups/public"
 //        }
     }
@@ -15,6 +16,7 @@ allprojects {
     repositories {
         jcenter()
 //        maven {
+//        //use this if you want to use a local Sonatype nexus server -> only during development
 //            url "http://localhost:8081/nexus/content/groups/public"
 //        }
     }
