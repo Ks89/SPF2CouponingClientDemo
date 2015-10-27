@@ -48,6 +48,12 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    repositories {
+        maven {
+            url  "http://dl.bintray.com/ks89/maven"
+        }
+    }
 }
 
 task wrapper(type: Wrapper) {
