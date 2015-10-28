@@ -6,7 +6,7 @@
 
 ## Informations
 
-This is a demo app that gets Coupons from a device with SPF and SPFCouponingProvider installed on it.
+This is a demo app that receives Coupons from a device with SPF and SPFCouponingProvider installed on it.
 
 SPF2CouponingClientDemo requires Android 4.2 JellyBean MR1 (API 17) or higher. But I tested this new version only on 4.4.x KilKat, 5.x.x Lollipop and 6.0 Marshmallow. 
 This choice is related to to the fact that in previous versions, Wi-Fi Direct was unstable and unreliable.
